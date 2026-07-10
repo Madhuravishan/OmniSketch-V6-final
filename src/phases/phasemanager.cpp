@@ -1,0 +1,99 @@
+#include "phasemanager.h"
+#include "retractbeltsphase.h"
+#include "settopdistancephase.h"
+#include "extendtohomephase.h"
+#include "pencalibrationphase.h"
+#include "svgselectphase.h"
+#include "begindrawingphase.h"
+#include "AsyncJson.h"
+#include "ArduinoJson.h"
+#include <stdexcept>
+
+PhaseManager::PhaseManager(Movement* movement, Pen* penA, Pen* penB, Runner* runner, AsyncWebServer* server) {
+    retractBeltsPhase = new RetractBeltsPhase(this, movement);
+    // NOTE (Step 3b): SetTopDistancePhase still only gets pen A. The Park Servo
+    // button in the tools modal targets pen 1. If/when we add a Park Servo 2
+    // button for pre-assembly of pen 2, this is where to pass penB too.
+    setTopDistancePhase = new SetTopDistancePhase(this, movement, penA);
+    extendToHomePhase = new ExtendToHomePhase(this, movement);
+
+    // SCRUBBY (Step 3b): two calibration phases, chained.
+    //   pen 1 calibration -> on done -> pen 2 calibration
+    //   pen 2 calibration -> on done (or Skip) -> BeginDrawing
+    penCalibrationPhase  = new PenCalibrationPhase(this, penA, PhaseNames::PenCalibration2, "PenCalibration");
+    penCalibration2Phase = new PenCalibrationPhase(this, penB, PhaseNames::BeginDrawing,    "PenCalibration2");
+
+    svgSelectPhase = new SvgSelectPhase(this);
+    beginDrawingPhase = new BeginDrawingPhase(this, runner, server);
+
+    this->movement = movement;
+    reset();
+}
+
+Phase* PhaseManager::getCurrentPhase() {
+    return currentPhase;
+}
+
+void PhaseManager::setPhase(PhaseNames name) {
+    Serial.print("Switching current phase to ");
+    switch (name) {
+        case PhaseNames::RetractBelts:
+            Serial.println("RetractBelts");
+            currentPhase = retractBeltsPhase;
+            break;
+        case PhaseNames::SetTopDistance:
+            Serial.println("SetTopDistance");
+            currentPhase = setTopDistancePhase;
+            break;
+        case PhaseNames::ExtendToHome:
+            Serial.println("ExtendToHome");
+            currentPhase = extendToHomePhase;
+            break;
+        case PhaseNames::PenCalibration:
+            Serial.println("PenCalibration");
+            currentPhase = penCalibrationPhase;
+            break;
+        case PhaseNames::PenCalibration2:                 // SCRUBBY (Step 3b)
+            Serial.println("PenCalibration2");
+            currentPhase = penCalibration2Phase;
+            break;
+        case PhaseNames::SvgSelect:
+            Serial.println("SvgSelect");
+            currentPhase = svgSelectPhase;
+            break;
+        case PhaseNames::BeginDrawing:
+            Serial.println("BeginDrawing");
+            currentPhase = beginDrawingPhase;
+            break;
+        default:
+            throw std::invalid_argument("Invalid Phase");
+    }
+}
+
+void PhaseManager::respondWithState(AsyncWebServerRequest *request) {
+    auto currentPhase = getCurrentPhase()->getName();
+    auto moving = movement->isMoving();
+    auto startedHoming = movement->hasStartedHoming();
+    auto homePosition = movement->getHomeCoordinates();
+
+    auto topDistance = movement->getTopDistance();
+    auto safeWidth = topDistance != -1 ? movement->getWidth() : -1;
+
+    AsyncResponseStream *response = request->beginResponseStream("application/json");
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject &root = jsonBuffer.createObject();
+
+    root["phase"] = currentPhase;
+    root["moving"] = moving;
+    root["topDistance"] = topDistance;
+    root["safeWidth"] = safeWidth;
+    root["homeX"] = homePosition.x;
+    root["homeY"] = homePosition.y;
+
+    root.printTo(*response);
+    request->send(response);
+}
+
+void PhaseManager::reset() {
+    setPhase(PhaseManager::SetTopDistance);
+}
