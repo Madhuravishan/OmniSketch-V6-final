@@ -9,8 +9,9 @@ class Display {
     Display();
     void displayText(String text);
     void displayHomeScreen(String ipLine, String orLine, String mdnsLine);
-    // SCRUBBY (Step 4): bigger progress UI - large centered percentage
+    // OMNISKETCH (Step 4): bigger progress UI - large centered percentage
     // above a filled progress bar. Used by Runner during drawing.
     void displayProgress(int percent);
 };
 #endif
+

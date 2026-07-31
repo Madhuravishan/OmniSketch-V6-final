@@ -11,15 +11,15 @@ class PhaseManager {
     Phase* retractBeltsPhase;
     Phase* setTopDistancePhase;
     Phase* extendToHomePhase;
-    Phase* penCalibrationPhase;     // SCRUBBY: pen 1 calibration
-    Phase* penCalibration2Phase;    // SCRUBBY (Step 3b): pen 2 calibration
+    Phase* penCalibrationPhase;     // OMNISKETCH: pen 1 calibration
+    Phase* penCalibration2Phase;    // OMNISKETCH (Step 3b): pen 2 calibration
     Phase* svgSelectPhase;
     Phase* beginDrawingPhase;
     Movement* movement;
     public:
-    // SCRUBBY (Step 3b): added PenCalibration2 between PenCalibration and SvgSelect.
+    // OMNISKETCH (Step 3b): added PenCalibration2 between PenCalibration and SvgSelect.
     enum PhaseNames {RetractBelts, SetTopDistance, ExtendToHome, PenCalibration, PenCalibration2, SvgSelect, BeginDrawing};
-    // SCRUBBY (Step 3b): constructor now takes BOTH pens (penA = pen 1, penB = pen 2).
+    // OMNISKETCH (Step 3b): constructor now takes BOTH pens (penA = pen 1, penB = pen 2).
     PhaseManager(Movement* movement, Pen* penA, Pen* penB, Runner* runner, AsyncWebServer* server);
     Phase* getCurrentPhase();
     void setPhase(PhaseNames name);
@@ -27,3 +27,4 @@ class PhaseManager {
     void reset();
 };
 #endif
+

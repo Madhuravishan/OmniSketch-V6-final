@@ -25,16 +25,16 @@ class Runner {
     Task *finishingSequence[1];
     int sequenceIx = 0;
 
-    // SCRUBBY (Step 4): bounding box of the active drawing, parsed from
+    // OMNISKETCH (Step 4): bounding box of the active drawing, parsed from
     // the optional 'b' header line. Used by the Preview Boundary button.
     bool hasBoundingBox = false;
     double bboxMinX = 0, bboxMinY = 0, bboxMaxX = 0, bboxMaxY = 0;
 
-    // SCRUBBY (Step 4): when true, runner is doing a one-shot boundary
+    // OMNISKETCH (Step 4): when true, runner is doing a one-shot boundary
     // trace only - on completion it stops without continuing to drawing.
     bool previewOnly = false;
 
-    // SCRUBBY (Step 4 fix): the start beep MUST NOT run inside start()
+    // OMNISKETCH (Step 4 fix): the start beep MUST NOT run inside start()
     // because /run is dispatched on the AsyncTCP task. A blocking delay
     // there starves AsyncTCP and trips the task watchdog. Instead start()
     // raises this flag; run() consumes it on its first iteration (which
@@ -49,3 +49,4 @@ class Runner {
     void runBoundaryPreview();
 };
 #endif
+

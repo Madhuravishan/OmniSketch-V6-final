@@ -10,15 +10,15 @@
 #include "runner.h"
 #include "pen.h"
 #include "display.h"
-#include "config.h"   // SCRUBBY: pin map
+#include "config.h"   // OMNISKETCH: pin map
 #include "phases/phasemanager.h"
 
 AsyncWebServer server(80);
 
 Movement *movement;
 Runner *runner;
-Pen *pen;       // SCRUBBY: pen 1 (D33), not mirrored
-Pen *pen2;      // SCRUBBY: pen 2 (D32), MIRRORED
+Pen *pen;       // OMNISKETCH: pen 1 (D33), not mirrored
+Pen *pen2;      // OMNISKETCH: pen 2 (D32), MIRRORED
 Display *display;
 
 PhaseManager* phaseManager;
@@ -47,13 +47,13 @@ void setup()
         return;
     }
 
-    // SCRUBBY (Step 4): peripheral pin setup. Both devices start OFF.
+    // OMNISKETCH (Step 4): peripheral pin setup. Both devices start OFF.
     pinMode(LASER_PIN, OUTPUT);
     digitalWrite(LASER_PIN, LASER_ACTIVE_HIGH ? LOW : HIGH);
     pinMode(BUZZER_PIN, OUTPUT);
     digitalWrite(BUZZER_PIN, BUZZER_ACTIVE_HIGH ? LOW : HIGH);
 
-    // SCRUBBY (Step 4 v4): wake-up sweep using LEDC channel 15 directly.
+    // OMNISKETCH (Step 4 v4): wake-up sweep using LEDC channel 15 directly.
     //
     // Previously this used Arduino's tone()/noTone(), but tone() and
     // ESP32Servo both grab LEDC channels starting from channel 0, and
@@ -77,7 +77,7 @@ void setup()
     pinMode(BUZZER_PIN, OUTPUT);
     digitalWrite(BUZZER_PIN, BUZZER_ACTIVE_HIGH ? LOW : HIGH);
 
-    // SCRUBBY (Step 4 fix): explicit I2C init at 400 kHz for faster OLED.
+    // OMNISKETCH (Step 4 fix): explicit I2C init at 400 kHz for faster OLED.
     Wire.begin(OLED_SDA_PIN, OLED_SCL_PIN);
     Wire.setClock(400000);
 
@@ -99,7 +99,7 @@ void setup()
     wifiManager.setTitle("Connect to WiFi");
     wifiManager.setMenu(menu);
     wifiManager.setWebServerCallback(serverCallback);
-    wifiManager.autoConnect("Scrubby");
+    wifiManager.autoConnect("OmniSketch");
 
     if (resetAfterConnect) {
         Serial.println("Connected to WiFi through captive portal, restarting...");
@@ -108,9 +108,9 @@ void setup()
     
     Serial.println("Connected to wifi");
 
-    MDNS.begin("Scrubby");
+    MDNS.begin("OmniSketch");
 
-    Serial.println("Started mDNS for Scrubby");
+    Serial.println("Started mDNS for OmniSketch");
 
     pen  = new Pen(SERVO_PEN1_PIN);
     pen2 = new Pen(SERVO_PEN2_PIN, true);
@@ -185,7 +185,7 @@ void setup()
     server.begin();
     Serial.println("Server started");
 
-    display->displayHomeScreen("http://" + WiFi.localIP().toString(), "or", "http://Scrubby.local");
+    display->displayHomeScreen("http://" + WiFi.localIP().toString(), "or", "http://OmniSketch.local");
     
 }
 
@@ -195,3 +195,4 @@ void loop()
     runner->run();
     phaseManager->getCurrentPhase()->loopPhase();
 }
+

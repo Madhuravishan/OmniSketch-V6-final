@@ -25,7 +25,7 @@ void Display::displayText(String text)
     uint16_t width;
     uint16_t height;
 
-    // SCRUBBY (Step 4): defensive setTextSize(1). displayProgress() bumps
+    // OMNISKETCH (Step 4): defensive setTextSize(1). displayProgress() bumps
     // the size to 3 for the big percentage; if displayText is called
     // after that without resetting, ordinary status messages would
     // print huge and run off the screen.
@@ -43,7 +43,7 @@ void Display::displayText(String text)
 
 void Display::displayHomeScreen(String ipLine, String orLine, String mdnsLine) {
     display->clearDisplay();
-    display->setTextSize(1);   // SCRUBBY (Step 4): defensive, same reason
+    display->setTextSize(1);   // OMNISKETCH (Step 4): defensive, same reason
 
     int16_t x1;
     int16_t y1;
@@ -66,7 +66,7 @@ void Display::displayHomeScreen(String ipLine, String orLine, String mdnsLine) {
 }
 
 // =====================================================================
-//  SCRUBBY (Step 4): large progress display.
+//  OMNISKETCH (Step 4): large progress display.
 //
 //  Layout on the 128x64 OLED:
 //
@@ -122,3 +122,4 @@ void Display::displayProgress(int percent) {
     display->display();
     Serial.println("Displayed progress " + String(percent) + "%");
 }
+

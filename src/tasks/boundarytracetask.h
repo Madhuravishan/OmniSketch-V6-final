@@ -3,7 +3,7 @@
 #include "movement.h"
 #include "task.h"
 
-// SCRUBBY (Step 4): Traces the drawing's bounding box with the laser on.
+// OMNISKETCH (Step 4): Traces the drawing's bounding box with the laser on.
 // Used only via the manual "Preview Boundary" button on the BeginDrawing
 // slide. Both pens are assumed UP before this task runs; the task does
 // not touch the pens.
@@ -24,3 +24,4 @@ class BoundaryTraceTask : public Task {
     }
 };
 #endif
+

@@ -43,7 +43,7 @@ void doSlowMove(Pen* pen, int startDegree, int targetDegree, int speedDegPerSec)
 }
 
 
-// SCRUBBY: servo pin and mirror flag are passed in.
+// OMNISKETCH: servo pin and mirror flag are passed in.
 //   Pen 1: Pen(SERVO_PEN1_PIN)          -> not mirrored, frame is 0-90 = physical
 //   Pen 2: Pen(SERVO_PEN2_PIN, true)    -> mirrored, physical = 180 - logical
 Pen::Pen(int servoPin, bool mirrored)
@@ -57,7 +57,7 @@ Pen::Pen(int servoPin, bool mirrored)
     setRawValue(90);
 }
 
-// SCRUBBY: The "raw value" name is retained for backward compatibility but
+// OMNISKETCH: The "raw value" name is retained for backward compatibility but
 // the input is now treated as a LOGICAL angle in pen-1's frame (0-90). For
 // a mirrored pen we flip it about 90 deg before writing to the servo, so
 // the slider, park button, and slowUp/slowDown all work without knowing
@@ -95,8 +95,9 @@ bool Pen::isDown() {
     return currentPosition == penDistance;
 }
 
-// SCRUBBY: a pen is "ready" once its down-angle has been calibrated.
+// OMNISKETCH: a pen is "ready" once its down-angle has been calibrated.
 // Used by ToolChangeTask so an uncalibrated pen is never actuated.
 bool Pen::isReady() {
     return penDistance != -1;
 }
+

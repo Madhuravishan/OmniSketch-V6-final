@@ -10,7 +10,7 @@
 #include "LittleFS.h"
 using namespace std;
 
-// SCRUBBY (Step 4 v4): buzzer helpers using LEDC channel 15 directly.
+// OMNISKETCH (Step 4 v4): buzzer helpers using LEDC channel 15 directly.
 //
 // Previously these used Arduino's tone()/noTone(). Both tone() and the
 // ESP32Servo library allocate LEDC channels starting from channel 0.
@@ -26,7 +26,7 @@ using namespace std;
 //
 // Still synchronous (delay) - safe ONLY from the main loop task,
 // NEVER from inside an AsyncTCP HTTP handler (would trip the watchdog).
-static void scrubbyBeep(int ms) {
+static void omnisketchBeep(int ms) {
     ledcAttachPin(BUZZER_PIN, BUZZER_LEDC_CHANNEL);
     ledcWriteTone(BUZZER_LEDC_CHANNEL, 2000);   // 2 kHz square wave
     delay(ms);
@@ -38,10 +38,10 @@ static void scrubbyBeep(int ms) {
     digitalWrite(BUZZER_PIN, BUZZER_ACTIVE_HIGH ? LOW : HIGH);
 }
 
-static void scrubbyDoubleBeep(int ms, int gapMs) {
-    scrubbyBeep(ms);
+static void omnisketchDoubleBeep(int ms, int gapMs) {
+    omnisketchBeep(ms);
     delay(gapMs);
-    scrubbyBeep(ms);
+    omnisketchBeep(ms);
 }
 
 Runner::Runner(Movement *movement, Pen *penA, Pen *penB, Display *display) {
@@ -76,7 +76,7 @@ void Runner::initTaskProvider() {
         throw std::invalid_argument("bad file");
     }
 
-    // SCRUBBY (Step 4): optional bounding-box header. b<minX> <minY> <maxX> <maxY>
+    // OMNISKETCH (Step 4): optional bounding-box header. b<minX> <minY> <maxX> <maxY>
     auto pos = openedFile.position();
     auto bLine = openedFile.readStringUntil('\n');
     if (bLine.charAt(0) == 'b') {
@@ -168,7 +168,7 @@ Task *Runner::getNextTask()
                 activePen = penA;
                 movement->setPenDP(PEN1_D_P_MM);
             }
-            scrubbyDoubleBeep(BUZZER_TOOL_CHANGE_BEEP_MS, BUZZER_TOOL_CHANGE_GAP_MS);
+            omnisketchDoubleBeep(BUZZER_TOOL_CHANGE_BEEP_MS, BUZZER_TOOL_CHANGE_GAP_MS);
             return new ToolChangeTask(penA, penB);
         }
         else
@@ -187,7 +187,7 @@ Task *Runner::getNextTask()
             return finishingSequence[currentIx];
         } else {
             display->displayText("Finished!");
-            scrubbyBeep(BUZZER_END_BEEP_MS);
+            omnisketchBeep(BUZZER_END_BEEP_MS);
             delay(200);
             ESP.restart();
             return NULL;
@@ -205,7 +205,7 @@ void Runner::run()
     if (pendingStartBeep) {
         pendingStartBeep = false;
         display->displayText("Drawing...");
-        scrubbyBeep(BUZZER_START_BEEP_MS);
+        omnisketchBeep(BUZZER_START_BEEP_MS);
     }
 
     if (currentTask->isDone())
@@ -231,7 +231,7 @@ void Runner::run()
             if (newProgress > 100) {
                 newProgress = 100;
             }
-            // SCRUBBY (Step 4 fix): throttle OLED updates to every 5%
+            // OMNISKETCH (Step 4 fix): throttle OLED updates to every 5%
             // (plus the 100% finish) using displayProgress().
             if (progress != newProgress) {
                 Serial.println("Progress: " + String(newProgress));
@@ -268,3 +268,4 @@ void Runner::dryRun() {
     }
     Serial.println("All done");
 }
+

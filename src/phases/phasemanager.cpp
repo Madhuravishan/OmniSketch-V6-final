@@ -17,7 +17,7 @@ PhaseManager::PhaseManager(Movement* movement, Pen* penA, Pen* penB, Runner* run
     setTopDistancePhase = new SetTopDistancePhase(this, movement, penA);
     extendToHomePhase = new ExtendToHomePhase(this, movement);
 
-    // SCRUBBY (Step 3b): two calibration phases, chained.
+    // OMNISKETCH (Step 3b): two calibration phases, chained.
     //   pen 1 calibration -> on done -> pen 2 calibration
     //   pen 2 calibration -> on done (or Skip) -> BeginDrawing
     penCalibrationPhase  = new PenCalibrationPhase(this, penA, PhaseNames::PenCalibration2, "PenCalibration");
@@ -53,7 +53,7 @@ void PhaseManager::setPhase(PhaseNames name) {
             Serial.println("PenCalibration");
             currentPhase = penCalibrationPhase;
             break;
-        case PhaseNames::PenCalibration2:                 // SCRUBBY (Step 3b)
+        case PhaseNames::PenCalibration2:                 // OMNISKETCH (Step 3b)
             Serial.println("PenCalibration2");
             currentPhase = penCalibration2Phase;
             break;
@@ -97,3 +97,4 @@ void PhaseManager::respondWithState(AsyncWebServerRequest *request) {
 void PhaseManager::reset() {
     setPhase(PhaseManager::SetTopDistance);
 }
+

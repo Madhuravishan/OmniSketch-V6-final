@@ -1,6 +1,6 @@
 import * as svgControl from './svgControl.js';
 import * as client from './client.js';
-import * as dualColor from './dualColor.js';   // SCRUBBY (Step 3)
+import * as dualColor from './dualColor.js';   // OMNISKETCH (Step 3)
 
 let currentState = null;
 
@@ -12,12 +12,12 @@ window.onload = function () {
 
 let uploadConvertedCommands = null;
 
-// SCRUBBY (Step 3): dual-color drawing state
+// OMNISKETCH (Step 3): dual-color drawing state
 let isDualColorMode = false;
 let layer1Commands = null;
 
 // =====================================================================
-//  SCRUBBY (Step 4): bounding-box utilities for the laser preview.
+//  OMNISKETCH (Step 4): bounding-box utilities for the laser preview.
 //
 //  We scan the final command string (after any dual-color merge) for
 //  coordinate lines, compute the (minX, minY, maxX, maxY) box, and
@@ -176,7 +176,7 @@ function init() {
         });
     });
 
-    // SCRUBBY (Step 3b): Pen 2 calibration - mirrors pen 1 handlers
+    // OMNISKETCH (Step 3b): Pen 2 calibration - mirrors pen 1 handlers
     function getServo2ValueFromInputValue() {
         const inputValue = parseInt($("#servoRange2").val());
         const value = 90 - inputValue;
@@ -213,7 +213,7 @@ function init() {
         doneWithPhase();
     });
 
-    // SCRUBBY (Step 3): dual-color mode toggle
+    // OMNISKETCH (Step 3): dual-color mode toggle
     $("#dualColorMode").change(function() {
         isDualColorMode = $(this).is(":checked");
         layer1Commands = null;
@@ -480,7 +480,7 @@ function init() {
             commandsToUpload = dualColor.mergeLayers(layer1Commands, uploadConvertedCommands);
         }
 
-        // SCRUBBY (Step 4): inject the bounding-box header for the laser
+        // OMNISKETCH (Step 4): inject the bounding-box header for the laser
         // preview. Done after any dual-color merge so the box covers both
         // layers' coordinates.
         commandsToUpload = prependBoundingBox(commandsToUpload);
@@ -537,7 +537,7 @@ function init() {
         $.post("/run", {});
     });
 
-    // SCRUBBY (Step 4): manual laser boundary preview.
+    // OMNISKETCH (Step 4): manual laser boundary preview.
     // Fires /previewBoundary on the firmware which runs a single
     // BoundaryTraceTask and stops. The bot returns to the same
     // BeginDrawing screen so the user can then press Begin Drawing.
@@ -711,3 +711,4 @@ function getTurdSize() {
 function getFlattenPaths() {
     return $("#flattenPathsCheckbox").is(":checked");
 }
+

@@ -1,5 +1,5 @@
 // =====================================================================
-//  SCRUBBY (Step 3): dual-color command merger.
+//  OMNISKETCH (Step 3): dual-color command merger.
 //
 //  Takes two command outputs from the existing single-color renderer
 //  (one per SVG / pen) and produces a single unified command file that
@@ -28,7 +28,7 @@
 //      PEN2_D_P_MM via the kinematic solver), not by translating
 //      coordinates here.
 //
-//  SCRUBBY (post-3c) fix - pen drag during tool change:
+//  OMNISKETCH (post-3c) fix - pen drag during tool change:
 //  Originally the merger relied on each layer's own ending p0. But the
 //  upstream worker only emits p0 after the LAST stroke - if a layer
 //  ends mid-pen-down it could still leave pen 1 touching the wall
@@ -80,3 +80,4 @@ export function mergeLayers(layer1Text, layer2Text) {
         'p0',       // safety: ensure pen 2 is up at end (before home)
     ].join('\n');
 }
+

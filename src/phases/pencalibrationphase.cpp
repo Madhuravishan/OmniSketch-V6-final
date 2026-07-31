@@ -19,13 +19,13 @@ void PenCalibrationPhase::setPenDistance(AsyncWebServerRequest *request) {
     int angle = p->value().toInt();
     pen->setPenDistance(angle);
     pen->slowUp();
-    // SCRUBBY (Step 3b): transition to whichever phase this instance was wired to.
+    // OMNISKETCH (Step 3b): transition to whichever phase this instance was wired to.
     // For pen 1 -> PenCalibration2.  For pen 2 -> BeginDrawing.
     manager->setPhase(nextPhase);
     manager->respondWithState(request);
 }
 
-// SCRUBBY (Step 3b): "Skip" button for pen 2 calibration. The user clicks this
+// OMNISKETCH (Step 3b): "Skip" button for pen 2 calibration. The user clicks this
 // when only one pen is mounted. We move on without calling setPenDistance(),
 // so this pen's penDistance stays -1 and isReady() returns false. The
 // ToolChangeTask already checks isReady() before lifting, so single-color
@@ -40,3 +40,4 @@ void PenCalibrationPhase::doneWithPhase(AsyncWebServerRequest *request) {
 const char* PenCalibrationPhase::getName() {
     return phaseName;
 }
+

@@ -22,7 +22,7 @@ Movement::Movement(Display *display)
     moving = false;
     homed = false;
     startedHoming = false;
-    // SCRUBBY (Step 3c): penDP is initialised to PEN1_D_P_MM in the header.
+    // OMNISKETCH (Step 3c): penDP is initialised to PEN1_D_P_MM in the header.
     // Runner will call setPenDP() on tool changes.
 };
 
@@ -131,7 +131,7 @@ void Movement::runSteppers()
     }
 };
 
-// SCRUBBY (Step 3c): switch the kinematic pen offset for the active pen.
+// OMNISKETCH (Step 3c): switch the kinematic pen offset for the active pen.
 // Also reset gamma_last_position so the iterative solver doesn't start from
 // pen 1's last tilt estimate when pen 2 has a very different geometry; lets
 // the solver converge cleanly on the next move.
@@ -142,7 +142,7 @@ void Movement::setPenDP(double newDP) {
 }
 
 inline void Movement::getLeftTangentPoint(const double frameX, const double frameY, const double gamma, double& x_PL, double& y_PL) {
-    // SCRUBBY (Step 3c): now reads penDP instead of constexpr d_p.
+    // OMNISKETCH (Step 3c): now reads penDP instead of constexpr d_p.
     const double s_L = d_t / 2.0;
     const double P_LX = s_L * cos(gamma) - penDP * sin(gamma);
     const double P_LY = s_L * sin(gamma) + penDP * cos(gamma);
@@ -151,7 +151,7 @@ inline void Movement::getLeftTangentPoint(const double frameX, const double fram
 }
 
 inline void Movement::getRightTangentPoint(const double frameX, const double frameY, const double gamma, double& x_PR, double& y_PR) {
-    // SCRUBBY (Step 3c): now reads penDP instead of constexpr d_p.
+    // OMNISKETCH (Step 3c): now reads penDP instead of constexpr d_p.
     const double s_R = d_t / 2.0;
     const double P_RX = s_R * cos(gamma) + penDP * sin(gamma);
     const double P_RY = s_R * sin(gamma) - penDP * cos(gamma);
@@ -371,3 +371,4 @@ bool Movement::hasStartedHoming() {
 int Movement::getTopDistance() {
     return topDistance;
 }
+

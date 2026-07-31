@@ -1,5 +1,5 @@
 """
-Scrubby build.py - cross-platform TypeScript worker build.
+OmniSketch build.py - cross-platform TypeScript worker build.
 
 Replaces the original Mural build.py which only worked on macOS/Linux.
 
@@ -43,7 +43,7 @@ WORKER_OUT_FILE  = os.path.join(WORKER_OUT_DIR, "worker.js")
 def fail(message):
     """Print a clear error and abort the PlatformIO build."""
     print("=" * 60)
-    print("Scrubby build.py: FATAL")
+    print("OmniSketch build.py: FATAL")
     print(message)
     print("=" * 60)
     sys.exit(1)
@@ -105,7 +105,7 @@ def needs_rebuild():
 
 
 def main():
-    print("Scrubby build.py: building TypeScript worker")
+    print("OmniSketch build.py: building TypeScript worker")
     print(f"  Project root: {PROJECT_ROOT}")
 
     # Sanity-check we're in the right place.
@@ -170,3 +170,4 @@ def main():
 
 
 main()
+

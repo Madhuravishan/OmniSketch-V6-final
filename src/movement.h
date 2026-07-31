@@ -4,14 +4,14 @@
 #include "AccelStepper.h"
 #include "Arduino.h" 
 #include "display.h"
-#include "config.h"   // SCRUBBY: central hardware pin map (see config.h)
+#include "config.h"   // OMNISKETCH: central hardware pin map (see config.h)
 
 // Motor driver parameters.
 constexpr int printSpeedSteps = 1000;
 constexpr int  moveSpeedSteps = 3000;
 constexpr long INFINITE_STEPS = 999999999;
 constexpr long acceleration = 999999999;  // Essentially infinite, causing instant stop / start
-constexpr int stepsPerRotation = STEPS_PER_ROTATION; // SCRUBBY: from config.h
+constexpr int stepsPerRotation = STEPS_PER_ROTATION; // OMNISKETCH: from config.h
 
 // Geometry parameters:
 // Effective diameter of the pulley+belts. Use EStep calibration to refine this value.
@@ -24,7 +24,7 @@ constexpr double mass_bot = 0.55;   // Mass of the mural bot [kg].
 constexpr double g_constant = 9.81; // Earth's gravitational acceleration constant [m/s^2].
 constexpr double d_t = 76.027;      // [mm] Distance of tangent points, where belts touch the pulleys.
 
-// SCRUBBY (Step 3c): d_p is now a per-pen runtime value (see Movement::penDP
+// OMNISKETCH (Step 3c): d_p is now a per-pen runtime value (see Movement::penDP
 // member below) instead of a constexpr. Default values for each pen are in
 // config.h (PEN1_D_P_MM / PEN2_D_P_MM). d_m (CoM offset) and d_t (tangent-
 // point spacing) are physical properties of the bot itself and stay fixed.
@@ -56,7 +56,7 @@ private:
     Display *display;
     void setOrigin();
 
-    // SCRUBBY (Step 3c): d_p is now a runtime member, switched by the
+    // OMNISKETCH (Step 3c): d_p is now a runtime member, switched by the
     // Runner on every tool change. Defaults to pen 1's value at startup
     // so single-color drawings behave identically to before this change.
     double penDP = PEN1_D_P_MM;
@@ -76,7 +76,7 @@ private:
     Lengths getBeltLengths(double x, double y);
 
     double gamma_last_position = 0.0;
-    // SCRUBBY (Step 3c): removed `const` qualifier from these helpers because
+    // OMNISKETCH (Step 3c): removed `const` qualifier from these helpers because
     // they read penDP which is now a non-const member. (Could mark penDP
     // mutable instead, but plain non-const is clearer.)
     inline void getLeftTangentPoint(const double frameX, const double frameY, const double gamma, double& x_PL, double& y_PL);
@@ -116,7 +116,7 @@ public:
     void runSteppers();
     float beginLinearTravel(double x, double y, int speed);
 
-    // SCRUBBY (Step 3c): called by Runner on tool change. Pass PEN1_D_P_MM
+    // OMNISKETCH (Step 3c): called by Runner on tool change. Pass PEN1_D_P_MM
     // or PEN2_D_P_MM from config.h. Updates the kinematic geometry so all
     // subsequent moves are computed with the correct pen-to-belt-line offset.
     void setPenDP(double newDP);
@@ -128,3 +128,4 @@ public:
 };
 
 #endif
+
