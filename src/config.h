@@ -91,7 +91,7 @@ constexpr int STEPS_PER_ROTATION = 200 * 32;
 //  v2 (locked): pen 2 sits ~32mm above pen 1 (above the belt line).
 // =====================================================================
 constexpr double PEN1_D_P_MM =   4.4866;
-constexpr double PEN2_D_P_MM = -27.5134;
+constexpr double PEN2_D_P_MM = -24.5134;
 
 #endif
 

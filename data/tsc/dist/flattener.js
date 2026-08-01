@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.flattenPaths = void 0;
+const paperLoader_1 = require("./paperLoader");
+const paper = (0, paperLoader_1.loadPaper)();
+function flattenPaths(paths, updateStatusFn) {
+    updateStatusFn("Sorting paths");
+    paths.sort((a, b) => a.isAbove(b) ? -1 : 1);
+    const count = paths.length;
+    for (let currentPathIx = 0; currentPathIx < paths.length - 1; currentPathIx++) {
+        updateStatusFn(`Flattening paths: ${currentPathIx + 1} / ${count}`);
+        const currentPath = paths[currentPathIx];
+        for (let modifiedPathIx = currentPathIx + 1; modifiedPathIx < paths.length; modifiedPathIx++) {
+            const pathToModify = paths[modifiedPathIx];
+            const modifiedPath = pathToModify.subtract(currentPath, {
+                insert: false,
+            });
+            paths[modifiedPathIx] = modifiedPath;
+        }
+    }
+}
+exports.flattenPaths = flattenPaths;
+//# sourceMappingURL=flattener.js.map

@@ -20,7 +20,7 @@ const double circumference = diameter * PI; // [mm]
 constexpr double midPulleyToWall = 41.0;    // (Height) distance from mid of pulley to wall [mm].
 constexpr float homedStepOffsetMM = 40.0;   // Length of fully retracted belt hitting stop screw.
 const int homedStepsOffset = int((homedStepOffsetMM / circumference) * stepsPerRotation);
-constexpr double mass_bot = 0.55;   // Mass of the mural bot [kg].
+constexpr double mass_bot = 1.2;   // Mass of the mural bot [kg].
 constexpr double g_constant = 9.81; // Earth's gravitational acceleration constant [m/s^2].
 constexpr double d_t = 76.027;      // [mm] Distance of tangent points, where belts touch the pulleys.
 
