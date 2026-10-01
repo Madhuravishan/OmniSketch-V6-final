@@ -57,7 +57,7 @@
 Developed with passion and dedication by Batch 24 IT Undergraduates, University of Moratuwa:
 
 * **Kavindu Kalhara**
-* **Madhura Ravishan** *(Author)*
+* **Madhura Ravishan** 
 * **Manuri Pabara**
 * **Dilki Nimeshika**
 * **Senan Senujaya**
