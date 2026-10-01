@@ -5,17 +5,16 @@
 
 [![Faculty of IT, University of Moratuwa](https://img.shields.io/badge/UoM-Faculty%20of%20IT-blue.svg)](https://it.mrt.ac.lk/)
 [![Grade: A](https://img.shields.io/badge/Evaluation%20Grade-A-success.svg)]()
-[![Firmware: FluidNC](https://img.shields.io/badge/Firmware-FluidNC-orange.svg)]()
 [![Status: Completed](https://img.shields.io/badge/Status-Completed-brightgreen.svg)]()
 
-*An open-source, precision V-plotter built from scratch over 15 months of hardware engineering, custom firmware configuration, and full-stack software integration.*
+*An open-source, precision V-plotter built from scratch over 15 months of hardware engineering, custom firmware development, and a bespoke web-based control application.*
 
 </div>
 
 ---
 
 ## ✨ Overview
-**OmniSketch** (also known as *Scrubby*) is a wall-hanging drawing robot designed and developed as our first-year hardware project at the Faculty of Information Technology, University of Moratuwa. By integrating custom kinematics, dual NEMA 17 stepper motors, and an ESP32 microcontroller running FluidNC, the machine is capable of rendering intricate, continuous-line art, sketches, and vector graphics directly onto vertical surfaces.
+**OmniSketch** (also known as *Scrubby*) is a wall-hanging drawing robot designed and developed as our first-year hardware project at the Faculty of Information Technology, University of Moratuwa. By integrating custom kinematics, dual NEMA 17 stepper motors, an ESP32 microcontroller, and a custom web application hosted directly on the device, the machine is capable of rendering intricate, continuous-line art and vector graphics directly onto vertical surfaces.
 
 ---
 
@@ -23,8 +22,8 @@
 
 | Component / Subsystem | Technology / Hardware Used | Role / Description |
 | :--- | :--- | :--- |
-| **Microcontroller** | ESP32 DevKit V1 | Core processing unit managing web server, UI, and motion coordination |
-| **Firmware** | FluidNC & LittleFS | Motion control, g-code interpretation, and local file storage |
+| **Microcontroller** | ESP32 DevKit V1 | Core processing unit running custom firmware and serving the web app |
+| **Software Stack** | Custom Web Application & LittleFS | Local web-based control panel, file handling, and motion execution |
 | **Motor Drivers** | DRV8825 (U3 & U4) | Precise microstepping for left and right NEMA 17 motors |
 | **Actuators** | NEMA 17 Steppers | Drive the V-plotter suspension belts |
 | **Pen Lift Mechanism**| Dual MG90S Servos (U9, U11) | Precise up/down pen actuation with 180° transform mapping |
@@ -39,7 +38,7 @@
 | :--- | :--- | :--- |
 | **STEP_L / DIR_L / EN_L** | GPIO18 / GPIO14 / GPIO13 | Left DRV8825 — STEP / DIR / ENABLE (Active LOW) |
 | **STEP_R / DIR_R / EN_R** | GPIO27 / GPIO26 / GPIO25 | Right DRV8825 — STEP / DIR / ENABLE (Active LOW) |
-| **SERVO_PEN1** | GPIO33 | MG90S Pen 1 (U11 connector) — ESP32Servo control |
+| **SERVO_PEN1** | GPIO33 | MG90S Pen 1 (U11 connector) — Servo control |
 | **SERVO_PEN2** | GPIO32 | MG90S Pen 2 (U9 connector) — Mirrored pen (180° transform) |
 | **SCL / SDA (I2C)** | GPIO22 / GPIO21 | SSD1306 OLED Display (400 kHz, pull-ups to 3.3V) |
 | **BUZZER** | GPIO4 | Active buzzer via U10 header (LEDC channel 15) |
@@ -49,8 +48,8 @@
 
 ## 🚀 Key Features
 * **V-Plotter Kinematics:** Custom mathematical string-length calculations for precise coordinate plotting on vertical planes.
-* **Web-Based Control UI:** Fully responsive frontend interface served locally via the ESP32’s LittleFS partition.
-* **Robust Circuit Protection:** Designed with low-side MOSFET switching, pull-down resistors, and strict memory management to prevent system crashes during file uploads.
+* **Custom Web Control Interface:** Fully responsive, locally hosted web application built from scratch to interface directly with the ESP32.
+* **Robust Circuit Protection:** Designed with low-side MOSFET switching, pull-down resistors, and strict memory management on the LittleFS partition.
 
 ---
 
@@ -58,7 +57,7 @@
 Developed with passion and dedication by Batch 24 IT Undergraduates, University of Moratuwa:
 
 * **Kavindu Kalhara**
-* **Madhura Ravishan** 
+* **Madhura Ravishan** *(Author)*
 * **Manuri Pabara**
 * **Dilki Nimeshika**
 * **Senan Senujaya**
